@@ -18,83 +18,82 @@ public class Model {
 	}
 	
 	public Set<Esame> calcolaSottoinsiemeEsami(int numeroCrediti) {
-		migliore = new HashSet<>();
+		migliore = new HashSet<Esame>();
 		mediaMigliore = 0.0;
 		
-		Set<Esame> parziale = new HashSet<>();  
+		Set<Esame> parziale = new HashSet<Esame>();
 		
-		cercaMeglio(parziale, 0, numeroCrediti);
+		cercaMeglio(parziale,0,numeroCrediti);
 		
-		return migliore;		
-
+		return migliore;
 	}
 	
+	
+	
 	private void cercaMeglio(Set<Esame> parziale, int L, int numeroCrediti) {
-		
 		int sommaCrediti = sommaCrediti(parziale);
 		
-		if (sommaCrediti > numeroCrediti)
+		// condizioni di uscita
+		if(sommaCrediti > numeroCrediti)
 			return;
 		
-		if (sommaCrediti == numeroCrediti) {//potrei avere una soluzione qui
+		if(sommaCrediti == numeroCrediti) {
 			double mediaVoti = calcolaMedia(parziale);
-			if (mediaVoti > mediaMigliore) {
+			if(mediaVoti > mediaMigliore) {
 				mediaMigliore = mediaVoti;
 				migliore = new HashSet<>(parziale);
 			}
 			return;
 		}
 		
-		if (L == allEsami.size())
+		if(L == allEsami.size())
 			return;
 		
 		// provo ad aggiungere il prossimo elemento
-		//L=0 {e1} 			  / {}
-		//L=1 {e1, e2} - {e1} / {e2} - {}	
-		
 		parziale.add(allEsami.get(L));
-		cercaMeglio(parziale, L+1, numeroCrediti);
+		cercaMeglio(parziale,L+1,numeroCrediti);
 		parziale.remove(allEsami.get(L));
 		
 		// provo a non aggiungere il prossimo elemento
-		cercaMeglio(parziale, L+1, numeroCrediti);	
-		
+		cercaMeglio(parziale,L+1,numeroCrediti);
 	}
+	
 
+/*
 	private void cerca(Set<Esame> parziale, int L, int numeroCrediti) {
 		
+		// calcolo il fitness della soluzione
 		int sommaCrediti = sommaCrediti(parziale);
 		
-		if (sommaCrediti > numeroCrediti)
+		// condizioni di uscita
+		if(sommaCrediti > numeroCrediti)
 			return;
 		
-		if (sommaCrediti == numeroCrediti) {//potrei avere una soluzione qui
+		if(sommaCrediti == numeroCrediti) {
 			double mediaVoti = calcolaMedia(parziale);
-			if (mediaVoti > mediaMigliore) {
+			if(mediaVoti > mediaMigliore) {
 				mediaMigliore = mediaVoti;
 				migliore = new HashSet<>(parziale);
 			}
 			return;
 		}
 		
-		if (L == allEsami.size())
+		// se ho già aggiunto tutti gli esami
+		if(L == allEsami.size())
 			return;
 		
-		// se arrivo qui, numeroCrediti > sommaCrediti
+		// se sono arrivato fin qui il numero di crediti > sommaCrediti quindi ha senso aggiungere esami
 		
-		for (Esame e : allEsami) {
-			
-			if (!parziale.contains(e)) {
+		for(Esame e: allEsami) {
+			if(!parziale.contains(e)) {
 				parziale.add(e);
-				cerca(parziale, L+1, numeroCrediti);
-				parziale.remove(e);
-				
+				cerca(parziale,L+1,numeroCrediti);
+				parziale.remove(e); //backtracking
 			}
-			
 		}
 		
 		
-	}
+	}*/
 
 	public double calcolaMedia(Set<Esame> esami) {
 		
